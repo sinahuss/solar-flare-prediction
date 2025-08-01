@@ -15,7 +15,7 @@
 
 ## 1. Project Overview
 
-This project is a data science application developed as part of the WGU Computer Science Capstone. It addresses the real-world challenge of space weather forecasting by using supervised machine learning to predict the intensity of solar flares. The model is designed to provide a 24-hour advance warning for a space weather agency like NOAA, helping to protect critical satellite, communication, and power grid infrastructure from the adverse effects of significant solar events.
+This project is a data science application developed to address the real-world challenge of space weather forecasting by using supervised machine learning to predict the intensity of solar flares. The model is designed to provide a 24-hour advance warning for a space weather agency like NOAA, helping to protect critical satellite, communication, and power grid infrastructure from the adverse effects of significant solar events.
 
 ## 2. Key Features
 
@@ -51,6 +51,14 @@ The project follows the **CRISP-DM** (Cross-Industry Standard Process for Data M
   - X-class: ~1% of observations (only 14 total cases)
 * **Challenge**: Extreme rarity of critical X-class events requiring specialized handling
 
+![Class Distribution](images/flare_distribution.png)
+*Figure 1: Distribution of flare counts per 24-hour period showing severe class imbalance requiring specialized ML techniques*
+
+The exploratory analysis reveals key patterns in flare production across different sunspot characteristics:
+
+![Flare Analysis by Zurich Class](images/flare_by_zurich_class.png)
+*Figure 2: Flare production patterns by magnetic complexity classification, showing higher activity in D and E class regions*
+
 ### 4.2. Technical Approach
 
 #### Data Preprocessing & Feature Engineering
@@ -66,6 +74,9 @@ The project follows the **CRISP-DM** (Cross-Industry Standard Process for Data M
   - Results in 1.8x data amplification with balanced representation
 * **Class Weighting**: Implemented balanced class weights to penalize minority class misclassification more heavily during training
 
+![SMOTEENN Results](images/smoteenn_balanced_distribution.png)
+*Figure 3: Class distribution after SMOTEENN balancing, achieving more equitable representation for model training*
+
 #### Model Development & Validation
 * **Algorithms**: Systematic comparison of Random Forest, XGBoost, and SVM classifiers chosen for their effectiveness with imbalanced, structured data
 * **Hyperparameter Optimization**: 
@@ -78,6 +89,9 @@ The project follows the **CRISP-DM** (Cross-Industry Standard Process for Data M
 * **SHAP Analysis**: Applied SHapley Additive exPlanations to identify most influential features for X-class flare prediction
 * **Feature Importance**: Quantified contribution of each sunspot characteristic to model predictions
 * **Business Insights**: Revealed that `largest spot size` and `spot distribution` are primary predictors of severe flare activity
+
+![SHAP Feature Importance](images/shap_analysis.png)
+*Figure 4: SHAP analysis revealing key predictors for solar flare classification, with largest spot size being the most influential feature*
 
 #### Technical Challenges Addressed
 * **Extreme Class Imbalance**: X-class flares represent only 1% of observations (14 total cases)
@@ -109,6 +123,14 @@ The final **Random Forest Classifier** was selected for its superior performance
 | **Random Forest** |  75.3%   |  0.471   |     75.0%      |  0.806  |
 | XGBoost         |  74.1%   |  0.393   |     25.0%      |  0.740  |
 | SVM             |  76.5%   |  0.436   |     25.0%      |  0.734  |
+
+The systematic model comparison reveals Random Forest's superior performance across key metrics:
+
+![Confusion Matrices](images/confusion_matrices_comparison.png)
+*Figure 5: Normalized confusion matrices showing Random Forest's balanced performance across all flare classes*
+
+![ROC Curves](images/roc_curves_comparison.png)
+*Figure 6: ROC curves demonstrating strong discrimination capability, with Random Forest achieving the highest AUC scores for critical X-class detection*
 
 The Random Forest model excels at detecting the most dangerous X-class flares while maintaining strong overall performance, making it ideal for operational space weather forecasting.
 
@@ -154,6 +176,13 @@ The Random Forest model excels at detecting the most dangerous X-class flares wh
 solar-flare-prediction/
 ├── data/
 │   └── data.csv                     # UCI Solar Flare dataset (1,391 observations)
+├── images/                          # Visualization screenshots from analysis
+│   ├── flare_distribution.png       # Class distribution analysis
+│   ├── flare_by_zurich_class.png    # EDA by magnetic complexity
+│   ├── smoteenn_balanced_distribution.png  # Balancing technique results
+│   ├── confusion_matrices_comparison.png   # Model performance analysis
+│   ├── roc_curves_comparison.png    # ROC analysis for all models
+│   └── shap_analysis.png           # Feature importance interpretation
 ├── notebooks/
 │   └── solar_flare_analysis.ipynb   # Main analysis notebook with complete pipeline
 ├── .gitignore                       # Git ignore patterns
@@ -164,6 +193,7 @@ solar-flare-prediction/
 ### Directory Contents
 
 * **`data/`**: Contains the UCI Solar Flare dataset with 13 features (10 input + 3 target variables)
+* **`images/`**: High-quality visualizations demonstrating EDA, model performance, and interpretability analysis
 * **`notebooks/`**: Jupyter notebook implementing the complete CRISP-DM methodology
 * **`requirements.txt`**: Conda environment file generated with `conda list --export` for exact reproducibility
 * **`.gitignore`**: Excludes development artifacts and documentation drafts
