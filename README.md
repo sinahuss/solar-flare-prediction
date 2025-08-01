@@ -74,7 +74,7 @@ The exploratory analysis reveals key patterns in flare production across differe
   - Results in 1.8x data amplification with balanced representation
 * **Class Weighting**: Implemented balanced class weights to penalize minority class misclassification more heavily during training
 
-![SMOTEENN Results](images/smoteenn_balanced_distribution.png)
+![SMOTEENN Results](images/smoteenn_balanced_distribution.png)\
 *Figure 3: Class distribution after SMOTEENN balancing, achieving more equitable representation for model training*
 
 #### Model Development & Validation
